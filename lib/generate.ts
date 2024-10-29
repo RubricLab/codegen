@@ -1,45 +1,61 @@
 import { watch as fsWatch } from 'node:fs'
 import { readdir } from 'node:fs/promises'
-import type { ValidateTemplate, ValueFunction } from './types'
 
-async function codeGen<T extends string, V extends ValueFunction[]>({
-	watchDir,
-	buildFile,
+import type { z } from 'zod'
+export async function generate<TSchema extends z.ZodTypeAny>({
 	template,
-	values
+	getContext,
+	buildFile,
+	watch = false,
+	watchDir
 }: {
-	watchDir: string
+	template: {
+		schema: TSchema
+		templateFunction: (context: z.infer<TSchema>) => string
+	}
+	getContext: (files: { name: string; path: string }[]) => Promise<z.input<TSchema>>
 	buildFile: string
-	template: ValidateTemplate<T, V>
-	values: V
+	watch?: boolean
+	watchDir: string
 }) {
-	const files = await readdir(watchDir, { recursive: false })
-	const context = { files, watchDir }
-	const generatedValues = values.map(fn => fn(context))
-	if (typeof template !== 'string') {
-		throw template
+	const codeGen = async () => {
+		const files = await readdir(watchDir)
+
+		const acceptedFileTypes = ['.ts', '.tsx']
+
+		const filtered = files
+			.filter(file => acceptedFileTypes.some(type => file.endsWith(type)))
+			.map(file => {
+				const ext = acceptedFileTypes.find(type => file.endsWith(type))
+				if (!ext) {
+					throw new Error(`No matching extension found for file: ${file}`)
+				}
+				return {
+					name: file.split(ext)[0],
+					path: `${watchDir}/${file.split(ext)[0]}`
+				}
+			})
+			.filter((file): file is { name: string; path: string } => file !== undefined)
+
+		const rawContext = await getContext(filtered)
+
+		const parseResult = template.schema.safeParse(rawContext)
+		if (!parseResult.success) {
+			throw new Error(`Invalid context: ${parseResult.error.message}`)
+		}
+		const context = parseResult.data
+
+		const code = template.templateFunction(context)
+
+		await Bun.write(buildFile, code)
+		console.log(`Generated code at ${buildFile}`)
 	}
 
-	const code = template.replace(
-		/\$(\d+)/g,
-		(_, index) => generatedValues[Number.parseInt(index) - 1] || ''
-	)
-	await Bun.write(Bun.file(buildFile, {}), code)
-}
-
-export async function generate<T extends string, V extends ValueFunction[]>(params: {
-	watchDir: string
-	buildFile: string
-	template: ValidateTemplate<T, V>
-	values: V
-	watch?: boolean
-}) {
-	const { watch, watchDir } = params
-	await codeGen(params)
+	await codeGen()
 
 	if (watch) {
 		fsWatch(watchDir, async () => {
-			await codeGen(params)
+			await codeGen()
 		})
 	}
 }
