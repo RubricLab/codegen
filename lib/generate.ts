@@ -7,7 +7,8 @@ export async function generate<TSchema extends z.ZodTypeAny>({
 	getContext,
 	buildFile,
 	watch = false,
-	watchDir
+	watchDir,
+	acceptedFileTypes = ['.ts', '.tsx']
 }: {
 	template: {
 		schema: TSchema
@@ -17,11 +18,10 @@ export async function generate<TSchema extends z.ZodTypeAny>({
 	buildFile: string
 	watch?: boolean
 	watchDir: string
+	acceptedFileTypes?: `.${string}`[]
 }) {
 	const codeGen = async () => {
 		const files = await readdir(watchDir)
-
-		const acceptedFileTypes = ['.ts', '.tsx']
 
 		const filtered = files
 			.filter(file => acceptedFileTypes.some(type => file.endsWith(type)))
