@@ -1,3 +1,4 @@
+- [2025-01-09] [Support multi-file writes](https://github.com/RubricLab/codegen/commit/0fbb9dddb90cf543e2b66dd9d6f31c68b7b8efcf)
 - [2025-01-09] [Accept file types to watch](https://github.com/RubricLab/codegen/commit/d8d5d299925b2b20b99e994fdcb6f8ce9ec2823b)
 - [2024-10-29] [improve typesafety with new template pattern](https://github.com/RubricLab/codegen/commit/15739e283e399d1d2ed385af0db1027d803a1f50)
 - [2024-10-24] [add notify-monorepo action](https://github.com/RubricLab/codegen/commit/071ce6827c5377198845ed1dda4b6cf6d6a4cff6)
