@@ -1,5 +1,6 @@
 import { watch as fsWatch } from 'node:fs'
 import { readdir } from 'node:fs/promises'
+import chalk from 'chalk'
 import type { z } from 'zod'
 import type { createTemplate } from './template'
 
@@ -21,6 +22,7 @@ export async function generate<TSchema extends z.ZodTypeAny>({
 	acceptedFileTypes?: `.${string}`[]
 }) {
 	const codeGen = async ({ filename }: { filename?: string } = {}) => {
+		const start = performance.now()
 		const files = filename ? [filename] : await readdir(watchDir, { recursive })
 
 		const filtered = files
@@ -45,18 +47,25 @@ export async function generate<TSchema extends z.ZodTypeAny>({
 		}
 		const context = parseResult.data as z.infer<TSchema>
 
+		const elapsed = (performance.now() - start).toFixed(1)
+		const action = filename ? 'Rebuilt' : 'Built'
+
 		if (typeof buildFile === 'string') {
 			const code = template.templateFunction(context)
 			await Bun.write(buildFile, code)
-			console.log(`Generated code at ${buildFile}`)
+			console.log(chalk.gray(`${action} ${buildFile} in ${elapsed}ms`))
 		} else {
 			await Promise.all(
 				filtered.map(async file => {
 					const outPath = buildFile({ name: file.name, path: file.path })
 					const code = template.templateFunction(context, { path: file.path })
 					await Bun.write(outPath, code)
-					console.log(`Generated code at ${outPath}`)
 				})
+			)
+			console.log(
+				chalk.gray(
+					`${action} ${filtered.length} file${filtered.length > 1 ? 's' : ''} in ${watchDir} in ${elapsed}ms`
+				)
 			)
 		}
 	}
@@ -68,7 +77,6 @@ export async function generate<TSchema extends z.ZodTypeAny>({
 			if (!filename) return
 			if (!acceptedFileTypes.some(type => filename.endsWith(type))) return
 
-			console.log(`${eventType} in file "${filename}"`)
 			await codeGen({ filename })
 		})
 	}
