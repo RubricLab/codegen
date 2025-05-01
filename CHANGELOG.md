@@ -1,3 +1,4 @@
+- [2025-05-01] [Complete README](https://github.com/RubricLab/codegen/commit/4809153bcc109da6bb4d4d851658af276916a7c5)
 - [2025-05-01] [Bleed](https://github.com/RubricLab/codegen/commit/6f6f21d5a60f28c01d9f38623c1a2e65e3cbc8f7)
 - [2025-05-01] [Add README](https://github.com/RubricLab/codegen/commit/3d2b6feaba836298377779e4a853652fa1950d93)
 - [2025-01-10] [Make logs more subtle](https://github.com/RubricLab/codegen/commit/d5a35d520856c44d79ebda107b31b4f298c4764c)
