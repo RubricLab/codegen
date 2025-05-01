@@ -6,7 +6,8 @@ Generate code based on other code changing in a typesafe way, enabling experienc
 
 Here's an example of how to generate an `index.ts` file that exports all components from the `src/components` directory whenever a component file is added, removed, or changed:
 
-```ts [codegen.ts]
+**components.watch.ts**
+```ts
 import { createTemplate, generate } from '@rubriclab/codegen'
 import { z } from 'zod'
 import path from 'node:path'
@@ -55,11 +56,18 @@ await generate({
 console.log('Watching for changes in src/components...')
 ```
 
-Then run `bun codegen.ts` to start the watcher. You should see output like this:
+Then run `bun components.watch.ts` to start the watcher. You should see output like this:
 
-```sh
+```
 Built ~/my-app/src/components/index.ts in 0.9ms
 Watching for changes in src/components...
 ```
 
 This setup will watch the `src/components` directory and regenerate the `src/components/index.ts` file using the provided template and context whenever a file change is detected. This keeps your component exports automatically synchronized.
+
+In practice, you might run the watcher in parallel with your dev command:
+
+```sh
+bun codegen.ts & bun dev; wait
+```
+
