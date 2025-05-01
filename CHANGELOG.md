@@ -1,3 +1,4 @@
+- [2025-05-01] [Fix README cmd](https://github.com/RubricLab/codegen/commit/77215f1ab897c979ca16828d997551abb6c17a1f)
 - [2025-05-01] [Update README](https://github.com/RubricLab/codegen/commit/89183a6428a44bc2022cdeda051856a693726d08)
 - [2025-05-01] [Complete README](https://github.com/RubricLab/codegen/commit/4809153bcc109da6bb4d4d851658af276916a7c5)
 - [2025-05-01] [Bleed](https://github.com/RubricLab/codegen/commit/6f6f21d5a60f28c01d9f38623c1a2e65e3cbc8f7)

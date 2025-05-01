@@ -68,6 +68,7 @@ This setup will watch the `src/components` directory and regenerate the `src/com
 In practice, you might run the watcher in parallel with your dev command:
 
 ```sh
-bun codegen.ts & bun dev; wait
+bun add -d concurrently
+concurrently "bun components.watch.ts" "bun dev"
 ```
 
