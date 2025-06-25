@@ -1,3 +1,4 @@
+- [2025-06-25] [Use package/package commands](https://github.com/RubricLab/codegen/commit/1d8018e2cc78a71216ef71e5430260eca8868ef5)
 - [2025-05-01] [Un-indent snippets](https://github.com/RubricLab/codegen/commit/033e6e20b8e6928aa5f75ca7aa703a9405c8a50c)
 - [2025-05-01] [Fix README cmd](https://github.com/RubricLab/codegen/commit/77215f1ab897c979ca16828d997551abb6c17a1f)
 - [2025-05-01] [Update README](https://github.com/RubricLab/codegen/commit/89183a6428a44bc2022cdeda051856a693726d08)
