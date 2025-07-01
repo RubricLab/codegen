@@ -73,7 +73,7 @@ export async function generate<TSchema extends z.ZodTypeAny>({
 	await codeGen()
 
 	if (watch) {
-		fsWatch(watchDir, { recursive }, async (eventType, filename) => {
+		fsWatch(watchDir, { recursive }, async (_eventType, filename) => {
 			if (!filename) return
 			if (!acceptedFileTypes.some(type => filename.endsWith(type))) return
 

@@ -1,3 +1,4 @@
+- [2025-07-01] [run format](https://github.com/RubricLab/codegen/commit/1e20ad646a1b6004eeb920016c28bc428dd42a1e)
 - [2025-07-01] [consolidate biome format script](https://github.com/RubricLab/codegen/commit/ec189a5a562a153462ef4ef43faeea5bb23ec395)
 - [2025-06-25] [Use package/package commands](https://github.com/RubricLab/codegen/commit/1d8018e2cc78a71216ef71e5430260eca8868ef5)
 - [2025-05-01] [Un-indent snippets](https://github.com/RubricLab/codegen/commit/033e6e20b8e6928aa5f75ca7aa703a9405c8a50c)
